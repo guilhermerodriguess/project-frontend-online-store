@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { getCategories, getProductsFromCategoryAndQuery } from './services/api';
+// import { getCategories, getProductsFromCategoryAndQuery } from './services/api';
 
 class App extends React.Component {
   // componentDidMount() {
