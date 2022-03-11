@@ -11,7 +11,7 @@ class App extends React.Component {
   // teste REQUISITO 1.
 
   render() {
-    return (
+    return ( 
       <div className="App">
         <Home />
       </div>
