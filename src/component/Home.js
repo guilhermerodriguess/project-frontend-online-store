@@ -8,6 +8,7 @@ class Home extends React.Component {
       listproducts: [],
       loading: false,
       search: '',
+      categories: [],
     };
   }
 
@@ -22,7 +23,7 @@ class Home extends React.Component {
     const product = await getProductsFromCategoryAndQuery(search);
     console.log(product);
     this.setState({
-      listproducts: product.result,
+      listproducts: product.results,
       loading: false,
       search: '',
     });
@@ -49,7 +50,12 @@ class Home extends React.Component {
             {categori.name}
           </label>
         ))}
-        <input type="text" name="search" onChange={ this.handleInput } />
+        <input
+          type="text"
+          name="search"
+          onChange={ this.handleInput }
+          data-testid="query-input"
+        />
         <button
           type="submit"
           data-testid="query-button"
@@ -68,7 +74,7 @@ class Home extends React.Component {
             >
               <p>{ elem.title }</p>
               <p>{ elem.price }</p>
-              <p>{ elem.thumbnail }</p>
+              <img src={ elem.thumbnail } alt={ elem.title } />
             </div>
           ))}
       </>
