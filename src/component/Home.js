@@ -23,7 +23,7 @@ class Home extends React.Component {
             <input
               type="radio"
               id={ categori.id }
-              name={ categori.id }
+              name="categories"
               value={ categori.name }
             />
             {categori.name}
