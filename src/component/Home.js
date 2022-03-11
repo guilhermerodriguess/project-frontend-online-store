@@ -1,11 +1,13 @@
 import React from 'react';
-import { getCategories } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      categories: [],
+      listproducts: [],
+      loading: false,
+      search: '',
     };
   }
 
@@ -14,8 +16,26 @@ class Home extends React.Component {
     this.setState({ categories });
   }
 
+  handleBtnSearch = async () => {
+    this.setState({ loading: true });
+    const { search } = this.state;
+    const product = await getProductsFromCategoryAndQuery(search);
+    console.log(product);
+    this.setState({
+      listproducts: product.result,
+      loading: false,
+      search: '',
+    });
+  }
+
+  handleInput = (e) => {
+    this.setState({
+      search: e.target.value,
+    });
+  }
+
   render() {
-    const { categories } = this.state;
+    const { categories, loading, listproducts } = this.state;
     return (
       <>
         {categories.map((categori) => (
@@ -29,10 +49,28 @@ class Home extends React.Component {
             {categori.name}
           </label>
         ))}
-        <input />
+        <input type="text" name="search" onChange={ this.handleInput } />
+        <button
+          type="submit"
+          data-testid="query-button"
+          onClick={ this.handleBtnSearch }
+        >
+          Search
+        </button>
         <span data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </span>
+        { loading ? <p>Carregando</p>
+          : listproducts.map((elem) => (
+            <div
+              key={ Math.random() }
+              data-testid="product"
+            >
+              <p>{ elem.title }</p>
+              <p>{ elem.price }</p>
+              <p>{ elem.thumbnail }</p>
+            </div>
+          ))}
       </>
     );
   }
