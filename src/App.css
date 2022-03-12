@@ -1,0 +1,15 @@
+main {
+  display: flex;
+}
+
+.categories {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-button {
+  border: 1px solid black;
+  text-align: center;
+  width: 90vw;
+}

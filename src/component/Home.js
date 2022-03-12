@@ -8,6 +8,7 @@ class Home extends React.Component {
       listproducts: [],
       loading: false,
       search: '',
+      categories: [],
     };
   }
 
@@ -20,9 +21,8 @@ class Home extends React.Component {
     this.setState({ loading: true });
     const { search } = this.state;
     const product = await getProductsFromCategoryAndQuery(search);
-    console.log(product);
     this.setState({
-      listproducts: product.result,
+      listproducts: product.results,
       loading: false,
       search: '',
     });
@@ -34,44 +34,64 @@ class Home extends React.Component {
     });
   }
 
-  render() {
-    const { categories, loading, listproducts } = this.state;
-    return (
-      <>
-        {categories.map((categori) => (
-          <label htmlFor={ categori.id } data-testid="category" key={ categori.id }>
-            <input
-              type="radio"
-              id={ categori.id }
-              name={ categori.id }
-              value={ categori.name }
-            />
-            {categori.name}
-          </label>
-        ))}
-        <input type="text" name="search" onChange={ this.handleInput } />
-        <button
-          type="submit"
-          data-testid="query-button"
-          onClick={ this.handleBtnSearch }
+  loading = () => {
+    const { listproducts, loading } = this.state;
+    return loading ? <p>Carregando</p>
+      : listproducts.map((elem) => (
+        <div
+          key={ Math.random() }
+          data-testid="product"
         >
-          Search
-        </button>
-        <span data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </span>
-        { loading ? <p>Carregando</p>
-          : listproducts.map((elem) => (
-            <div
-              key={ Math.random() }
-              data-testid="product"
-            >
-              <p>{ elem.title }</p>
-              <p>{ elem.price }</p>
-              <p>{ elem.thumbnail }</p>
-            </div>
+          <p>{ elem.title }</p>
+          <p>{ elem.price }</p>
+          <img src={ elem.thumbnail } alt={ elem.title } />
+        </div>
+      ));
+  }
+
+  render() {
+    const { categories, listproducts } = this.state;
+    return (
+      <main>
+        <div className="categories">
+          {categories.map((categori) => (
+            <label htmlFor={ categori.id } data-testid="category" key={ categori.id }>
+              <input
+                type="radio"
+                id={ categori.id }
+                name={ categori.id }
+                value={ categori.name }
+              />
+              {categori.name}
+            </label>
           ))}
-      </>
+        </div>
+        <div>
+          <div className="input-button">
+            <input
+              type="text"
+              name="search"
+              onChange={ this.handleInput }
+              data-testid="query-input"
+            />
+            <button
+              type="submit"
+              data-testid="query-button"
+              onClick={ this.handleBtnSearch }
+            >
+              Search
+            </button>
+          </div>
+          <div className="message-products">
+            { listproducts.length === 0 ? (
+              <span data-testid="home-initial-message">
+                Digite algum termo de pesquisa ou escolha uma categoria.
+              </span>
+            )
+              : this.loading()}
+          </div>
+        </div>
+      </main>
     );
   }
 }
