@@ -1,7 +1,10 @@
 import React from 'react';
-import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import PropTypes from 'prop-types';
+import { getCategories, getProductsFromCategoryAndQuery,
+  getProductById } from '../services/api';
 import InputCategories from './InputCategories';
 import Search from './Search';
+import Card from './Card';
 
 class Home extends React.Component {
   constructor() {
@@ -12,6 +15,8 @@ class Home extends React.Component {
       search: '',
       categories: [],
       id: '',
+      click: false,
+      cart: [],
     };
   }
 
@@ -40,39 +45,35 @@ class Home extends React.Component {
     });
   }
 
-  handleAdd = () => {
+  handleAdd = async ({ target }) => {
     console.log('clicou');
+    const { click } = this.state;
+    const clicked = !click;
+    const cart = await getProductById(target.id);
+    this.setState({ click: clicked, cart });
+    console.log(cart);
   }
 
   loading = () => {
-    const { listproducts, loading } = this.state;
+    const { listproducts, loading, click } = this.state;
     return loading ? <p>Carregando</p>
-      : listproducts.map(({ title, price, thumbnail }) => (
-        <div
-          key={ Math.random() }
-          data-testid="product"
-          className="product"
-        >
-          <p>{ title }</p>
-          <img src={ thumbnail } alt={ title } />
-          <p>{ price }</p>
-          <button
-            type="button"
-            data-testid="product-add-to-cart"
-            onClick={ this.handleAdd }
-          >
-            Adicionar ao carrinho
-          </button>
-        </div>
+      : listproducts.map(({ title, price, thumbnail, id }) => (
+        <Card 
+          title={ title }
+          key={ id }
+          price={ price }
+          thumbnail={ thumbnail }
+          click={ click }
+          onclick={ this.handleAdd }
+        />
       ));
   }
 
   handleCategori = async ({ target }) => {
     this.setState({ loading: true });
-    const valor = target.id;
+    const catId = target.id;
     const { search } = this.state;
-    const listproducts = await getProductsFromCategoryAndQuery(valor, search);
-    console.log(listproducts.results);
+    const listproducts = await getProductsFromCategoryAndQuery(catId, search);
     this.setState({ listproducts: listproducts.results, loading: false, id: target.id });
   }
 
@@ -102,5 +103,13 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default Home;
