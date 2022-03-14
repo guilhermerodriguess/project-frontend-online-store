@@ -11,6 +11,7 @@ class Home extends React.Component {
       loading: false,
       search: '',
       categories: [],
+      id: '',
     };
   }
 
@@ -21,8 +22,8 @@ class Home extends React.Component {
 
   handleBtnSearch = async () => {
     this.setState({ loading: true });
-    const { search } = this.state;
-    const product = await getProductsFromCategoryAndQuery(null, search);
+    const { search, id } = this.state;
+    const product = await getProductsFromCategoryAndQuery(id, search);
     // Atenção á função, parametro estava no lugar errado.
     // const product = await getProductsFromCategoryAndQuery( search);  <== como estava
     // search deve ser segundo parametro, e estava como primeiro
@@ -39,18 +40,29 @@ class Home extends React.Component {
     });
   }
 
+  handleAdd = () => {
+    console.log('clicou');
+  }
+
   loading = () => {
     const { listproducts, loading } = this.state;
     return loading ? <p>Carregando</p>
-      : listproducts.map((elem) => (
+      : listproducts.map(({ title, price, thumbnail }) => (
         <div
           key={ Math.random() }
           data-testid="product"
           className="product"
         >
-          <p>{ elem.title }</p>
-          <img src={ elem.thumbnail } alt={ elem.title } />
-          <p>{ elem.price }</p>
+          <p>{ title }</p>
+          <img src={ thumbnail } alt={ title } />
+          <p>{ price }</p>
+          <button
+            type="button"
+            data-testid="product-add-to-cart"
+            onClick={ this.handleAdd }
+          >
+            Adicionar ao carrinho
+          </button>
         </div>
       ));
   }
@@ -58,9 +70,10 @@ class Home extends React.Component {
   handleCategori = async ({ target }) => {
     this.setState({ loading: true });
     const valor = target.id;
-    const listproducts = await getProductsFromCategoryAndQuery(valor, null);
+    const { search } = this.state;
+    const listproducts = await getProductsFromCategoryAndQuery(valor, search);
     console.log(listproducts.results);
-    this.setState({ listproducts: listproducts.results, loading: false });
+    this.setState({ listproducts: listproducts.results, loading: false, id: target.id });
   }
 
   render() {
