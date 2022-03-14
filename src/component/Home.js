@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import InputCategories from './InputCategories';
 
+
 class Home extends React.Component {
   constructor() {
     super();
