@@ -25,7 +25,7 @@ class Home extends React.Component {
     const product = await getProductsFromCategoryAndQuery(null, search);
     // Atenção á função, parametro estava no lugar errado.
     // const product = await getProductsFromCategoryAndQuery( search);  <== como estava
-    // search deve ser segundo parametro, e estava como primeiro.
+    // search deve ser segundo parametro, e estava como primeiro
     this.setState({
       listproducts: product.results,
       loading: false,
