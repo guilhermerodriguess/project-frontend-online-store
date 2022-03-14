@@ -41,10 +41,11 @@ class Home extends React.Component {
         <div
           key={ Math.random() }
           data-testid="product"
+          className="product"
         >
           <p>{ elem.title }</p>
-          <p>{ elem.price }</p>
           <img src={ elem.thumbnail } alt={ elem.title } />
+          <p>{ elem.price }</p>
         </div>
       ));
   }
@@ -53,9 +54,15 @@ class Home extends React.Component {
     const { categories, listproducts } = this.state;
     return (
       <main>
-        <div className="categories">
+        <fieldset className="categories">
+          <legend>Categorias</legend>
           {categories.map((categori) => (
-            <label htmlFor={ categori.id } data-testid="category" key={ categori.id }>
+            <label
+              className="categorie"
+              htmlFor={ categori.id }
+              data-testid="category"
+              key={ categori.id }
+            >
               <input
                 type="radio"
                 id={ categori.id }
@@ -65,26 +72,28 @@ class Home extends React.Component {
               {categori.name}
             </label>
           ))}
-        </div>
-        <div>
+        </fieldset>
+        <div className="input-products">
           <div className="input-button">
             <input
               type="text"
               name="search"
               onChange={ this.handleInput }
               data-testid="query-input"
+              className="input-search"
             />
             <button
               type="submit"
               data-testid="query-button"
               onClick={ this.handleBtnSearch }
+              className="button-search"
             >
               Search
             </button>
           </div>
           <div className="message-products">
             { listproducts.length === 0 ? (
-              <span data-testid="home-initial-message">
+              <span className="message" data-testid="home-initial-message">
                 Digite algum termo de pesquisa ou escolha uma categoria.
               </span>
             )
