@@ -54,6 +54,14 @@ class Home extends React.Component {
       ));
   }
 
+  test = async ({ target }) => {
+    this.setState({ loading: true });
+    const valor = target.id;
+    const listproducts = await getProductsFromCategoryAndQuery(valor, null);
+    console.log(listproducts.results);
+    this.setState({ listproducts: listproducts.results, loading: false });
+  }
+
   render() {
     const { categories, listproducts } = this.state;
     return (
@@ -70,9 +78,9 @@ class Home extends React.Component {
               <input
                 type="radio"
                 id={ categori.id }
-                name={ categori.id }
+                name="categories"
                 value={ categori.name }
-                onClick={ test }
+                onClick={ this.test }
               />
               {categori.name}
             </label>
