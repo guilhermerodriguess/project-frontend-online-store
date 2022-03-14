@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import InputCategories from './InputCategories';
 
 class Home extends React.Component {
   constructor() {
@@ -68,22 +69,8 @@ class Home extends React.Component {
       <main>
         <fieldset className="categories">
           <legend>Categorias</legend>
-          {categories.map((categori) => (
-            <label
-              className="categorie"
-              htmlFor={ categori.id }
-              data-testid="category"
-              key={ categori.id }
-            >
-              <input
-                type="radio"
-                id={ categori.id }
-                name="categories"
-                value={ categori.name }
-                onClick={ this.test }
-              />
-              {categori.name}
-            </label>
+          {categories.map(({ name, id }) => (
+            <InputCategories name={ name } id={ id } key={ id } />
           ))}
         </fieldset>
         <div className="input-products">
