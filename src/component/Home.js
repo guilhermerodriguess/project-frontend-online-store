@@ -22,7 +22,6 @@ class Home extends React.Component {
     this.setState({ loading: true });
     const { search } = this.state;
     const product = await getProductsFromCategoryAndQuery(search);
-    console.log(product);
     this.setState({
       listproducts: product.results,
       loading: false,
@@ -36,50 +35,74 @@ class Home extends React.Component {
     });
   }
 
-  render() {
-    const { categories, loading, listproducts } = this.state;
-    return (
-      <>
-        {categories.map((categori) => (
-          <label htmlFor={ categori.id } data-testid="category" key={ categori.id }>
-            <input
-              type="radio"
-              id={ categori.id }
-              name={ categori.id }
-              value={ categori.name }
-            />
-            {categori.name}
-          </label>
-        ))}
-        <input
-          type="text"
-          name="search"
-          onChange={ this.handleInput }
-          data-testid="query-input"
-        />
-        <button
-          type="submit"
-          data-testid="query-button"
-          onClick={ this.handleBtnSearch }
+  loading = () => {
+    const { listproducts, loading } = this.state;
+    return loading ? <p>Carregando</p>
+      : listproducts.map((elem) => (
+        <div
+          key={ Math.random() }
+          data-testid="product"
+          className="product"
         >
-          Search
-        </button>
-        <span data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </span>
-        <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
-        { loading ? <p>Carregando</p>
-          : listproducts.map((elem) => (
-            <div
-              key={ Math.random() }
-              data-testid="product"
+          <p>{ elem.title }</p>
+          <img src={ elem.thumbnail } alt={ elem.title } />
+          <p>{ elem.price }</p>
+        </div>
+      ));
+  }
+
+  render() {
+    const { categories, listproducts } = this.state;
+    return (
+      <main>
+        <fieldset className="categories">
+          <legend>Categorias</legend>
+          {categories.map((categori) => (
+            <label
+              className="categorie"
+              htmlFor={ categori.id }
+              data-testid="category"
+              key={ categori.id }
             >
-              <p>{ elem.title }</p>
-              <p>{ elem.price }</p>
-              <img src={ elem.thumbnail } alt={ elem.title } />
-            </div>
+              <input
+                type="radio"
+                id={ categori.id }
+                name={ categori.id }
+                value={ categori.name }
+              />
+              {categori.name}
+            </label>
           ))}
-      </>
+        </fieldset>
+        <div className="input-products">
+          <div className="input-button">
+            <input
+              type="text"
+              name="search"
+              onChange={ this.handleInput }
+              data-testid="query-input"
+              className="input-search"
+            />
+            <button
+              type="submit"
+              data-testid="query-button"
+              onClick={ this.handleBtnSearch }
+              className="button-search"
+            >
+              Search
+            </button>
+            <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
+          </div>
+          <div className="message-products">
+            { listproducts.length === 0 ? (
+              <span className="message" data-testid="home-initial-message">
+                Digite algum termo de pesquisa ou escolha uma categoria.
+              </span>
+            )
+              : this.loading()}
+          </div>
+        </div>
+      </main>
     );
   }
 }
