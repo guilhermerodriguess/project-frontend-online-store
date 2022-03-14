@@ -5,6 +5,7 @@ import { getCategories, getProductsFromCategoryAndQuery,
 import InputCategories from './InputCategories';
 import Search from './Search';
 import Card from './Card';
+import { addProduct } from '../services/cartProductsApi';
 
 class Home extends React.Component {
   constructor() {
@@ -15,8 +16,7 @@ class Home extends React.Component {
       search: '',
       categories: [],
       id: '',
-      click: false,
-      cart: [],
+      idProductsCart: [],
     };
   }
 
@@ -29,9 +29,6 @@ class Home extends React.Component {
     this.setState({ loading: true });
     const { search, id } = this.state;
     const product = await getProductsFromCategoryAndQuery(id, search);
-    // Atenção á função, parametro estava no lugar errado.
-    // const product = await getProductsFromCategoryAndQuery( search);  <== como estava
-    // search deve ser segundo parametro, e estava como primeiro
     this.setState({
       listproducts: product.results,
       loading: false,
@@ -45,27 +42,43 @@ class Home extends React.Component {
     });
   }
 
-  handleAdd = async ({ target }) => {
-    console.log('clicou');
-    const { click } = this.state;
-    const clicked = !click;
-    const cart = await getProductById(target.id);
-    this.setState({ click: clicked, cart });
-    console.log(cart);
+  handleAdd = async ({ target }, product) => {
+    const carts = await getProductById(target.id);
+    this.setState((esA) => ({
+      idProductsCart: [...esA.idProductsCart, carts],
+      loading: true,
+    }), () => {
+      (
+        this.saveProductCart(product)
+      );
+    });
+  }
+
+  saveProductCart = async (product) => {
+    await addProduct(product);
+    this.setState({ loading: false });
   }
 
   loading = () => {
-    const { listproducts, loading, click } = this.state;
+    const { listproducts, loading } = this.state;
     return loading ? <p>Carregando</p>
-      : listproducts.map(({ title, price, thumbnail, id }) => (
-        <Card 
-          title={ title }
-          key={ id }
-          price={ price }
-          thumbnail={ thumbnail }
-          click={ click }
-          onclick={ this.handleAdd }
-        />
+      : listproducts.map((product) => (
+        <section key={ product.id }>
+          <Card
+            title={ product.title }
+            price={ product.price }
+            thumbnail={ product.thumbnail }
+            id={ product.id }
+          />
+          <button
+            id={ product.id }
+            type="button"
+            data-testid="product-add-to-cart"
+            onClick={ (e) => this.handleAdd(e, product) }
+          >
+            Adicionar ao carrinho
+          </button>
+        </section>
       ));
   }
 
