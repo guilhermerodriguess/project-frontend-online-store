@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 class Home extends React.Component {
@@ -90,6 +91,7 @@ class Home extends React.Component {
             >
               Search
             </button>
+            <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
           </div>
           <div className="message-products">
             { listproducts.length === 0 ? (
