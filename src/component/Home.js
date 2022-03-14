@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import InputCategories from './InputCategories';
 import Search from './Search';
@@ -51,6 +52,12 @@ class Home extends React.Component {
           <p>{ elem.title }</p>
           <img src={ elem.thumbnail } alt={ elem.title } />
           <p>{ elem.price }</p>
+          <Link
+            data-testid="product-detail-link"
+            to={ `/product-detail/${elem.id}` }
+          >
+            Detalhes do produto
+          </Link>
         </div>
       ));
   }
