@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { addProduct } from '../services/cartProductsApi';
 
 class DetailsItem extends React.Component {
   constructor() {
@@ -25,6 +26,12 @@ class DetailsItem extends React.Component {
     return data;
   }
 
+  addCart = () => {
+    const { product } = this.state;
+    console.log(product);
+    addProduct(product);
+  }
+
   render() {
     const { product, loading } = this.state;
     console.log(product.attributes);
@@ -45,6 +52,13 @@ class DetailsItem extends React.Component {
               </li>
             ))}
         </ul>
+        <button
+          type="submit"
+          onClick={ this.addCart }
+          data-testid="product-detail-add-to-cart"
+        >
+          Adicionar ao carrinho
+        </button>
       </div>
     );
   }
