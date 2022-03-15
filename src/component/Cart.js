@@ -38,6 +38,11 @@ class Cart extends React.Component {
     this.setState({ products: [...products] });
   }
 
+  clearCart = () => {
+    this.setState({ products: [] });
+    localStorage.clear();
+  }
+
   render() {
     const { products } = this.state;
 
@@ -77,8 +82,15 @@ class Cart extends React.Component {
                     >
                       -
                     </button>
+
                   </div>
                 ))}
+              <button
+                type="button"
+                onClick={ this.clearCart }
+              >
+                Limpar Carrinho
+              </button>
             </section>
           ) }
       </div>
