@@ -2,7 +2,7 @@ import React from 'react';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import InputCategories from './InputCategories';
 import Search from './Search';
-// import Card from './Card';
+import Card from './Card';
 import { addProduct } from '../services/cartProductsApi';
 
 class Home extends React.Component {
@@ -72,9 +72,9 @@ class Home extends React.Component {
             data-testid="product-add-to-cart"
             onClick={ () => this.handleAdd(product) }
           >
-            Detalhes do produto
-          </Link>
-        </div>
+            Adicionar ao Carrinho
+          </button>
+        </section>
       ));
   }
 

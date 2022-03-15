@@ -29,6 +29,7 @@ class Cart extends React.Component {
                     title={ p.title }
                     thumbnail={ p.thumbnail }
                     price={ p.price }
+                    id={ p.id }
                   />
                 ))}
             </section>

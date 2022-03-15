@@ -16,7 +16,9 @@ class Card extends React.Component {
         <Link
           data-testid="product-detail-link"
           to={ `/product-detail/${id}` }
-        />
+        >
+          Detalhes do produto
+        </Link>
         <p>{ price }</p>
       </div>
     );
