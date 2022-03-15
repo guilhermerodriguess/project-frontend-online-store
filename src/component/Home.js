@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery,
   getProductById } from '../services/api';
 import InputCategories from './InputCategories';
 import Search from './Search';
-import Card from './Card';
+// import Card from './Card';
 import { addProduct } from '../services/cartProductsApi';
 
 class Home extends React.Component {
@@ -61,23 +62,22 @@ class Home extends React.Component {
   loading = () => {
     const { listproducts, loading } = this.state;
     return loading ? <p>Carregando</p>
-      : listproducts.map((product) => (
-        <section key={ product.id }>
-          <Card
-            title={ product.title }
-            price={ product.price.toString() }
-            thumbnail={ product.thumbnail }
-            id={ product.id }
-          />
-          <button
-            id={ product.id }
-            type="button"
-            data-testid="product-add-to-cart"
-            onClick={ (e) => this.handleAdd(e, product) }
+      : listproducts.map((elem) => (
+        <div
+          key={ Math.random() }
+          data-testid="product"
+          className="product"
+        >
+          <p>{ elem.title }</p>
+          <img src={ elem.thumbnail } alt={ elem.title } />
+          <p>{ elem.price }</p>
+          <Link
+            data-testid="product-detail-link"
+            to={ `/product-detail/${elem.id}` }
           >
-            Adicionar ao carrinho
-          </button>
-        </section>
+            Detalhes do produto
+          </Link>
+        </div>
       ));
   }
 
