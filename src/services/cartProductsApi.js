@@ -18,10 +18,10 @@ const simulateRequest = (response) => (callback) => {
   }, TIMEOUT);
 };
 
-export const getFavoriteProducts = () => new Promise((resolve) => {
+export const getFavoriteProducts = () => {
   const favoriteProducts = readFavoriteProducts();
-  simulateRequest(favoriteProducts)(resolve);
-});
+  return favoriteProducts;
+};
 
 export const addProduct = (product) => new Promise((resolve) => {
   if (product) {

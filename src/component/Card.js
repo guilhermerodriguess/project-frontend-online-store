@@ -10,8 +10,12 @@ class Card extends React.Component {
         data-testid="product"
         className="product"
       >
-        <p>{ title }</p>
+        <p data-testid="shopping-cart-product-name">{ title }</p>
         <img src={ thumbnail } alt={ title } />
+        <input
+          type="number"
+          data-testid="shopping-cart-product-quantity"
+        />
         <p>{ price }</p>
       </div>
     );

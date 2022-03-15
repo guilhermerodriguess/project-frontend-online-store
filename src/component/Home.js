@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getCategories, getProductsFromCategoryAndQuery,
   getProductById } from '../services/api';
 import InputCategories from './InputCategories';
@@ -66,7 +65,7 @@ class Home extends React.Component {
         <section key={ product.id }>
           <Card
             title={ product.title }
-            price={ product.price }
+            price={ product.price.toString() }
             thumbnail={ product.thumbnail }
             id={ product.id }
           />
@@ -116,13 +115,5 @@ class Home extends React.Component {
     );
   }
 }
-
-Home.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
-};
 
 export default Home;

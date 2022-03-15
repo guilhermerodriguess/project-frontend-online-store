@@ -1,59 +1,45 @@
 import React from 'react';
-import { getFavoriteProducts, removeProduct } from '../services/cartProductsApi';
+import { getFavoriteProducts } from '../services/cartProductsApi';
+import Card from './Card';
 
 class Cart extends React.Component {
   constructor() {
     super();
     this.state = {
-      products: [],
-      contador: 1,
+      products: [{ title: 'Seu carrinho está vazio' }],
+      loading: false,
     };
   }
 
-  async componentDidMount() {
-    const products = await getFavoriteProducts();
-    this.setState({ products });
+  componentDidMount() {
+    const products = getFavoriteProducts();
+    this.setState({ products }, () => this.setState({ loading: false }));
   }
-
-  handleChange = ({ target }) => {
-    this.setState({ contador: target.value });
-  }
-
-  // validInput = (p) => {
-  //   const { contador } = this.state;
-  //   if (contador < 1) removeProduct(p);
-  // }
 
   render() {
-    const { products, contador } = this.state;
+    const { products, loading } = this.state;
     return (
       <div>
-        {products.length !== 0 ? (
-          <section>
-            {products
-              .map((p) => (
-                <div
-                  key={ p.id }
-                  className="product"
-                >
-                  <p data-testid="shopping-cart-product-name">{ p.title }</p>
-                  <img src={ p.thumbnail } alt={ p.title } />
-                  <input
-                    type="number"
-                    data-testid="shopping-cart-product-quantity"
-                    value={ contador }
-                    name="contador"
-                    onChange={ (e) => this.handleChange(e, p) }
-                  />
-                  <p name="price">{ p.price * contador }</p>
-                </div>
-              ))}
-          </section>
+        { loading && <h1>Carregando..</h1> }
+        { !loading && products.length === 0 ? (
+          <span data-testid="shopping-cart-empty-message">
+            Seu carrinho está vazio
+          </span>
         )
           : (
-            <span data-testid="shopping-cart-empty-message">
-              Seu carrinho está vazio
-            </span>) }
+            <section>
+              {products
+                .map((p) => (
+                  <Card
+                    key={ p.id }
+                    id={ p.id }
+                    title={ p.title }
+                    thumbnail={ p.thumbnail }
+                    price={ p.price }
+                  />
+                ))}
+            </section>
+          ) }
       </div>
     );
   }
