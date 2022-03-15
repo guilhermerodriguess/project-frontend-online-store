@@ -10,11 +10,6 @@ class Cart extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   const products = getFavoriteProducts();
-  //   this.setState({ products }, () => this.setState({ loading: false }));
-  // }
-
   render() {
     const { products } = this.state;
 
