@@ -12,7 +12,7 @@ class Card extends React.Component {
       >
         <p data-testid="shopping-cart-product-name">{ title }</p>
         <img src={ thumbnail } alt={ title } />
-        <p data-testid="shopping-cart-product-quantity">1</p>
+        {/* <p data-testid="shopping-cart-product-quantity">1</p> */}
         <Link
           data-testid="product-detail-link"
           to={ `/product-detail/${id}` }
