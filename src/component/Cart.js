@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFavoriteProducts } from '../services/cartProductsApi';
+import { getFavoriteProducts, removeProduct } from '../services/cartProductsApi';
 import Card from './Card';
 
 class Cart extends React.Component {
@@ -36,6 +36,16 @@ class Cart extends React.Component {
       item.quantity = 0;
     }
     this.setState({ products: [...products] });
+  }
+
+  // handleRemoveButton = (event) {
+
+  // }
+
+  clearCart = () => {
+    const { products } = this.state;
+    removeProduct(products);
+    this.setState({ products: [] });
   }
 
   render() {
@@ -77,8 +87,15 @@ class Cart extends React.Component {
                     >
                       -
                     </button>
+
                   </div>
                 ))}
+              <button
+                type="button"
+                onClick={ this.clearCart }
+              >
+                Limpa Carrinho
+              </button>
             </section>
           ) }
       </div>
