@@ -41,7 +41,6 @@ class Home extends React.Component {
   }
 
   handleAdd = (product) => {
-    // const carts = await getProductById(target.id);
     this.setState((esA) => ({
       idProductsCart: [...esA.idProductsCart, product],
     }), () => {
