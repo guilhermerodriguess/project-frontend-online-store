@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery,
+  getProductById } from '../services/api';
 import InputCategories from './InputCategories';
 import Search from './Search';
+// import Card from './Card';
+import { addProduct } from '../services/cartProductsApi';
 
 class Home extends React.Component {
   constructor() {
@@ -12,6 +15,8 @@ class Home extends React.Component {
       loading: false,
       search: '',
       categories: [],
+      id: '',
+      idProductsCart: [],
     };
   }
 
@@ -22,11 +27,8 @@ class Home extends React.Component {
 
   handleBtnSearch = async () => {
     this.setState({ loading: true });
-    const { search } = this.state;
-    const product = await getProductsFromCategoryAndQuery(null, search);
-    // Atenção á função, parametro estava no lugar errado.
-    // const product = await getProductsFromCategoryAndQuery( search);  <== como estava
-    // search deve ser segundo parametro, e estava como primeiro.
+    const { search, id } = this.state;
+    const product = await getProductsFromCategoryAndQuery(id, search);
     this.setState({
       listproducts: product.results,
       loading: false,
@@ -38,6 +40,23 @@ class Home extends React.Component {
     this.setState({
       search: e.target.value,
     });
+  }
+
+  handleAdd = async ({ target }, product) => {
+    const carts = await getProductById(target.id);
+    this.setState((esA) => ({
+      idProductsCart: [...esA.idProductsCart, carts],
+      loading: true,
+    }), () => {
+      (
+        this.saveProductCart(product)
+      );
+    });
+  }
+
+  saveProductCart = async (product) => {
+    await addProduct(product);
+    this.setState({ loading: false });
   }
 
   loading = () => {
@@ -64,10 +83,10 @@ class Home extends React.Component {
 
   handleCategori = async ({ target }) => {
     this.setState({ loading: true });
-    const valor = target.id;
-    const listproducts = await getProductsFromCategoryAndQuery(valor, null);
-    console.log(listproducts.results);
-    this.setState({ listproducts: listproducts.results, loading: false });
+    const catId = target.id;
+    const { search } = this.state;
+    const listproducts = await getProductsFromCategoryAndQuery(catId, search);
+    this.setState({ listproducts: listproducts.results, loading: false, id: target.id });
   }
 
   render() {
