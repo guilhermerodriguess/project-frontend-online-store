@@ -1,11 +1,13 @@
 /* eslint-disable lines-between-class-members */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class DetailsItem extends React.Component {
   constructor() {
     super();
     this.state = {
       product: '',
+      loading: false,
     };
   }
   // eslint-disable-next-line space-before-blocks
@@ -13,6 +15,7 @@ class DetailsItem extends React.Component {
     const { match: { params: { id } } } = this.props;
     this.setState({
       product: await this.getProductById(id),
+      loading: true,
     });
   }
 
@@ -24,7 +27,7 @@ class DetailsItem extends React.Component {
   }
 
   render() {
-    const { product } = this.state;
+    const { product, loading } = this.state;
     console.log(product.attributes);
     return (
       <div>
@@ -33,14 +36,15 @@ class DetailsItem extends React.Component {
         <ul data-testid="product-detail-name">
           <li>{ product.title }</li>
           <li>{ product.price }</li>
-          { product.attributes.map(({ name, values }) => (
-            <li key={ name }>
-              Especficaçoes:
-              <li>
-                {`${name} - ${values}`}
+          { !loading ? <p>Ola</p>
+            : product.attributes.map((elem) => (
+              <li key={ elem.name }>
+                Especficaçoes:
+                <li>
+                  {`${elem.name} - ${elem.value_name}`}
+                </li>
               </li>
-            </li>
-          ))}
+            ))}
         </ul>
       </div>
     );
