@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Search extends React.Component {
   render() {
-    const { handleInput, handleBtnSearch } = this.props;
+    const { handleInput, handleBtnSearch, stat } = this.props;
     return (
       <div className="input-products">
         <div className="input-button">
@@ -23,7 +23,12 @@ class Search extends React.Component {
           >
             Search
           </button>
-          <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
+          <Link
+            data-testid="shopping-cart-button"
+            to={ { pathname: '/cart', state: { stat } } }
+          >
+            Carrinho
+          </Link>
         </div>
       </div>
     );
@@ -33,6 +38,7 @@ class Search extends React.Component {
 Search.propTypes = {
   handleInput: PropTypes.func.isRequired,
   handleBtnSearch: PropTypes.func.isRequired,
+  stat: PropTypes.string.isRequired,
 };
 
 export default Search;

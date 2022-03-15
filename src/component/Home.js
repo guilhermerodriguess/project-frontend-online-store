@@ -1,6 +1,5 @@
 import React from 'react';
-import { getCategories, getProductsFromCategoryAndQuery,
-  getProductById } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import InputCategories from './InputCategories';
 import Search from './Search';
 import Card from './Card';
@@ -41,11 +40,10 @@ class Home extends React.Component {
     });
   }
 
-  handleAdd = async ({ target }, product) => {
-    const carts = await getProductById(target.id);
+  handleAdd = (product) => {
+    // const carts = await getProductById(target.id);
     this.setState((esA) => ({
-      idProductsCart: [...esA.idProductsCart, carts],
-      loading: true,
+      idProductsCart: [...esA.idProductsCart, product],
     }), () => {
       (
         this.saveProductCart(product)
@@ -73,7 +71,7 @@ class Home extends React.Component {
             id={ product.id }
             type="button"
             data-testid="product-add-to-cart"
-            onClick={ (e) => this.handleAdd(e, product) }
+            onClick={ () => this.handleAdd(product) }
           >
             Adicionar ao carrinho
           </button>
