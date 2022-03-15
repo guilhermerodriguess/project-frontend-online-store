@@ -6,22 +6,16 @@ class Cart extends React.Component {
   constructor() {
     super();
     this.state = {
-      products: [{ title: 'Seu carrinho está vazio' }],
-      loading: false,
+      products: getFavoriteProducts(),
     };
   }
 
-  componentDidMount() {
-    const products = getFavoriteProducts();
-    this.setState({ products }, () => this.setState({ loading: false }));
-  }
-
   render() {
-    const { products, loading } = this.state;
+    const { products } = this.state;
+
     return (
       <div>
-        { loading && <h1>Carregando..</h1> }
-        { !loading && products.length === 0 ? (
+        { products.length === 0 ? (
           <span data-testid="shopping-cart-empty-message">
             Seu carrinho está vazio
           </span>
@@ -32,10 +26,10 @@ class Cart extends React.Component {
                 .map((p) => (
                   <Card
                     key={ p.id }
-                    id={ p.id }
                     title={ p.title }
                     thumbnail={ p.thumbnail }
                     price={ p.price }
+                    id={ p.id }
                   />
                 ))}
             </section>
