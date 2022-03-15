@@ -1,4 +1,3 @@
-/* eslint-disable lines-between-class-members */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,8 +9,8 @@ class DetailsItem extends React.Component {
       loading: false,
     };
   }
-  // eslint-disable-next-line space-before-blocks
-  async componentDidMount(){
+
+  async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     this.setState({
       product: await this.getProductById(id),
