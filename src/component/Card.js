@@ -10,8 +10,12 @@ class Card extends React.Component {
         data-testid="product"
         className="product"
       >
-        <p data-testid="shopping-cart-product-name">{ title }</p>
-        <img src={ thumbnail } alt={ title } />
+        <div className="title">
+          <p data-testid="shopping-cart-product-name">{ title }</p>
+        </div>
+        <div className="image">
+          <img src={ thumbnail } alt={ title } />
+        </div>
         {/* <p data-testid="shopping-cart-product-quantity">1</p> */}
         <Link
           data-testid="product-detail-link"
@@ -19,7 +23,7 @@ class Card extends React.Component {
         >
           Detalhes do produto
         </Link>
-        <p>{ price }</p>
+        <p>{`$${price}`}</p>
       </div>
     );
   }

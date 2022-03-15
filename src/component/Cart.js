@@ -40,7 +40,7 @@ class Cart extends React.Component {
 
   clearCart = () => {
     this.setState({ products: [] });
-    localStorage.clear();
+    localStorage.setItem('favorite_Products', JSON.stringify([]));
   }
 
   render() {

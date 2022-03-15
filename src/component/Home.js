@@ -50,8 +50,8 @@ class Home extends React.Component {
     });
   }
 
-  saveProductCart = async (product) => {
-    await addProduct(product);
+  saveProductCart = (product) => {
+    addProduct(product);
     this.setState({ loading: false });
   }
 

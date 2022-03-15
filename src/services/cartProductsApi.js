@@ -6,6 +6,7 @@ if (!JSON.parse(localStorage.getItem(FAVORITE_PRODUCTS_KEY))) {
 
 const readFavoriteProducts = () => JSON
   .parse(localStorage.getItem(FAVORITE_PRODUCTS_KEY));
+
 const saveFavoriteProducts = (favoriteProducts) => localStorage
   .setItem(FAVORITE_PRODUCTS_KEY, JSON.stringify(favoriteProducts));
 

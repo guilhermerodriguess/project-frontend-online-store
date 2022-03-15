@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { addProduct } from '../services/cartProductsApi';
 
 class DetailsItem extends React.Component {
   constructor() {
@@ -25,26 +27,36 @@ class DetailsItem extends React.Component {
     return data;
   }
 
+  addCart = () => {
+    const { product } = this.state;
+    console.log(product);
+    addProduct(product);
+  }
+
   render() {
     const { product, loading } = this.state;
-    console.log(product.attributes);
     return (
       <div>
-        <p>Especficação Técnica</p>
+        <p>Especificações Técnicas</p>
         <img src={ product.thumbnail } alt={ product.title } />
         <ul data-testid="product-detail-name">
           <li>{ product.title }</li>
           <li>{ product.price }</li>
-          { !loading ? <p>Ola</p>
+          { !loading ? <p>Carregando</p>
             : product.attributes.map((elem) => (
               <li key={ elem.name }>
-                Especficaçoes:
-                <li>
-                  {`${elem.name} - ${elem.value_name}`}
-                </li>
+                {`${elem.name} - ${elem.value_name}`}
               </li>
             ))}
         </ul>
+        <button
+          type="submit"
+          onClick={ this.addCart }
+          data-testid="product-detail-add-to-cart"
+        >
+          Adicionar ao carrinho
+        </button>
+        <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
       </div>
     );
   }
