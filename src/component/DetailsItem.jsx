@@ -56,7 +56,7 @@ class DetailsItem extends React.Component {
         >
           Adicionar ao carrinho
         </button>
-        <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
+        <Link data-testid="shopping-cart-button" to="/project-frontend-online-store/cart">Carrinho</Link>
       </div>
     );
   }

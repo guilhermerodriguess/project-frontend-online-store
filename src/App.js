@@ -20,8 +20,8 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/project-frontend-online-store" component={ Home } />
-            <Route exact path="/cart" component={ Cart } />
-            <Route path="/product-detail/:id" component={ DetailsItem } />
+            <Route exact path="/project-frontend-online-store/cart" component={ Cart } />
+            <Route exact path="/project-frontend-online-store/product-detail/:id" component={ DetailsItem } />
           </Switch>
         </BrowserRouter>
       </div>

@@ -19,7 +19,7 @@ class Card extends React.Component {
         {/* <p data-testid="shopping-cart-product-quantity">1</p> */}
         <Link
           data-testid="product-detail-link"
-          to={ `/product-detail/${id}` }
+          to={ `/project-frontend-online-store/product-detail/${id}` }
         >
           Detalhes do produto
         </Link>
